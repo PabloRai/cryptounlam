@@ -14,18 +14,13 @@ public class Main {
 
         BlockChain blockChain = BlockChain.INSTANCE;
 
-        Block genesisBlock = Block.makeGenesisBlock("Genesis block");
-        blockChain.addBlock(genesisBlock);
+        blockChain.createBlock("Genesis block");
         blockChain.mineBlockAt(0);
 
-        Block secondBlock = new Block("This is the second block",genesisBlock.getHash());
-
-        blockChain.addBlock(secondBlock);
+        blockChain.createBlock("This is the second block");
         blockChain.mineBlockAt(1);
 
-        Block thirdBlock = new Block("This is the third block",secondBlock.getHash());
-
-        blockChain.addBlock(thirdBlock);
+        blockChain.createBlock("This is the third block");
         blockChain.mineBlockAt(2);
 
         boolean valid = BlockChainValidator.isBlockChainValid(blockChain);

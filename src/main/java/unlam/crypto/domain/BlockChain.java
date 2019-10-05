@@ -8,10 +8,29 @@ public enum BlockChain {
 
     INSTANCE;
 
-    public static final int DIFFICULTY = 5;
+    public static final int DIFFICULTY = 2;
     private final List<Block> blockChain = new ArrayList<>();
 
     public void addBlock(Block block) {
+        blockChain.add(block);
+    }
+
+    public void createBlock(String data) {
+        if (blockChain.isEmpty()) {
+            createGenesisBlock(data);
+            return;
+        }
+
+        int blockChainSize = getBlockChainSize();
+        Block lastBlock = blockChain.get(blockChainSize - 1);
+
+        Block block = new Block(data, DIFFICULTY, lastBlock.getHash());
+        blockChain.add(block);
+    }
+
+    private void createGenesisBlock(String data) {
+        Block block = new Block(data, DIFFICULTY, "0");
+
         blockChain.add(block);
     }
 
@@ -35,7 +54,7 @@ public enum BlockChain {
     public void mineBlockAt(int index) {
         Block block = getBlockChainElementAt(index);
 
-        block.mineBlock(DIFFICULTY);
+        block.mineBlock();
 
         System.out.println("Block mined with hash: " + block.getHash());
     }
