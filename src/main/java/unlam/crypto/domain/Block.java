@@ -8,7 +8,7 @@ public class Block {
     private String hash;
     private String previousHash;
     private String data;
-    private long timeStamp;
+    private long timestamp;
     private int nonce;
     private int difficulty;
 
@@ -16,7 +16,7 @@ public class Block {
     Block(String data, int difficulty, String previousHash) {
         this.data = data;
         this.previousHash = previousHash;
-        this.timeStamp = new Date().getTime();
+        this.timestamp = new Date().getTime();
         this.difficulty = difficulty;
         this.hash = calculateHash();
     }
@@ -30,7 +30,7 @@ public class Block {
     }
 
     public String calculateHash() {
-        String input = previousHash + timeStamp + nonce + data;
+        String input = previousHash + timestamp + nonce + data;
 
         return StringUtils.applySha256(input);
     }
