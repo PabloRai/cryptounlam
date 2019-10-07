@@ -1,7 +1,9 @@
 package unlam.crypto.utils;
 
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.security.MessageDigest;
+import java.util.Base64;
 
 public class StringUtils {
 
@@ -28,5 +30,9 @@ public class StringUtils {
 
     public static String repeat(String stringToRepeat, int count) {
         return new String(new char[count]).replace("\0", stringToRepeat);
+    }
+
+    public static String getStringFromKey(Key key) {
+        return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 }

@@ -2,9 +2,12 @@ package unlam.crypto.app;
 
 import unlam.crypto.domain.Block;
 import unlam.crypto.domain.BlockChain;
+import unlam.crypto.domain.Transaction;
+import unlam.crypto.domain.Wallet;
 import unlam.crypto.utils.JsonUtils;
 import unlam.crypto.validators.BlockChainValidator;
 
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,16 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+        Wallet walletSender = new Wallet();
+        Wallet walletReceiver = new Wallet();
+
+        Transaction transaction = walletSender.generateTransaction(walletReceiver.getPublicKey(), 5, null);
+
+        System.out.println("Signature is verified: " + transaction.verifySignature());
+
+        /*
         BlockChain blockChain = BlockChain.INSTANCE;
 
         blockChain.createBlock("Genesis block");
@@ -31,5 +44,6 @@ public class Main {
 
         String jsonBlockChain = JsonUtils.getJSONString(blockChain.getBlockChain());
         System.out.println(jsonBlockChain);
+        */
     }
 }

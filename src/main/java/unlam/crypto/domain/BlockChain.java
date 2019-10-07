@@ -2,7 +2,9 @@ package unlam.crypto.domain;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum BlockChain {
 
@@ -14,6 +16,9 @@ public enum BlockChain {
     public void addBlock(Block block) {
         blockChain.add(block);
     }
+
+    private static Map<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
+
 
     public void createBlock(String data) {
         if (blockChain.isEmpty()) {
@@ -57,6 +62,18 @@ public enum BlockChain {
         block.mineBlock();
 
         System.out.println("Block mined with hash: " + block.getHash());
+    }
+
+    public static Map<String, TransactionOutput> getUTXOs() {
+        return new HashMap<>(UTXOs);
+    }
+
+    public static void addToUTXO(TransactionOutput transactionToBeAdded) {
+        UTXOs.put(transactionToBeAdded.getId(), transactionToBeAdded);
+    }
+
+    public static void removeFromUTXO(String id) {
+        UTXOs.remove(id);
     }
 
 }
