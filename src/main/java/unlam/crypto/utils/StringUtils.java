@@ -1,9 +1,13 @@
 package unlam.crypto.utils;
 
+import unlam.crypto.domain.Transaction;
+
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class StringUtils {
 
@@ -34,5 +38,24 @@ public class StringUtils {
 
     public static String getStringFromKey(Key key) {
         return Base64.getEncoder().encodeToString(key.getEncoded());
+    }
+
+
+    public static String getMerkleRoot(List<Transaction> transactions) {
+        int count = transactions.size();
+        List<String> transactionIds = new ArrayList<>();
+        for(Transaction transaction : transactions) {
+            transactionIds.add(transaction.getTransactionId());
+        }
+        List<String> treeLayer = transactionIds;
+        while(count > 1) {
+            treeLayer = new ArrayList<>();
+            for(int i=1; i < transactionIds.size(); i++) {
+                treeLayer.add(applySha256(transactionIds.get(i-1) + transactionIds.get(i)));
+            }
+            count = treeLayer.size();
+            transactionIds = treeLayer;
+        }
+        return (treeLayer.size() == 1) ? treeLayer.get(0) : "";
     }
 }

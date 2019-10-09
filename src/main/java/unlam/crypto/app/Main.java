@@ -17,24 +17,44 @@ public class Main {
 
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
-        Wallet walletSender = new Wallet();
-        Wallet walletReceiver = new Wallet();
-
-        Transaction transaction = walletSender.generateTransaction(walletReceiver.getPublicKey(), 5, null);
-
-        System.out.println("Signature is verified: " + transaction.verifySignature());
-
-        /*
         BlockChain blockChain = BlockChain.INSTANCE;
 
-        blockChain.createBlock("Genesis block");
+        Wallet walletSender = new Wallet();
+        Wallet walletReceiver = new Wallet();
+        Wallet coinBase = new Wallet();
+
+        Transaction transaction = coinBase.generateGenesisTransaction(walletSender.getPublicKey(), 100f, null);
+
+        BlockChain.addToUTXO(transaction.getOutputs().get(0));
+
+        System.out.println("Creating and Mining Genesis block... ");
+
+        Block genesis = blockChain.createBlock();
+        genesis.addTransaction(transaction);
         blockChain.mineBlockAt(0);
 
-        blockChain.createBlock("This is the second block");
+        Block block1 = blockChain.createBlock();
+        System.out.println("\nWalletSenders's balance is: " + walletSender.getBalance());
+        System.out.println("\nWalletSenders is Attempting to send funds (40) to WalletB...");
+        block1.addTransaction(walletSender.sendFunds(walletReceiver.getPublicKey(), 40f));
         blockChain.mineBlockAt(1);
 
-        blockChain.createBlock("This is the third block");
+        System.out.println("\nWalletA's balance is: " + walletSender.getBalance());
+        System.out.println("WalletB's balance is: " + walletReceiver.getBalance());
+
+        Block block2 = blockChain.createBlock();
+        System.out.println("\nWalletA Attempting to send more funds (1000) than it has...");
+        block2.addTransaction(walletSender.sendFunds(walletReceiver.getPublicKey(), 1000f));
         blockChain.mineBlockAt(2);
+        System.out.println("\nWalletA's balance is: " + walletSender.getBalance());
+        System.out.println("WalletB's balance is: " + walletReceiver.getBalance());
+
+        Block block3 = blockChain.createBlock();
+        System.out.println("\nWalletB is Attempting to send funds (20) to WalletA...");
+        block3.addTransaction(walletReceiver.sendFunds( walletSender.getPublicKey(), 20));
+        blockChain.mineBlockAt(3);
+        System.out.println("\nWalletA's balance is: " + walletSender.getBalance());
+        System.out.println("WalletB's balance is: " + walletReceiver.getBalance());
 
         boolean valid = BlockChainValidator.isBlockChainValid(blockChain);
 
@@ -42,8 +62,6 @@ public class Main {
             System.out.println("The blockchain is not valid!");
         }
 
-        String jsonBlockChain = JsonUtils.getJSONString(blockChain.getBlockChain());
-        System.out.println(jsonBlockChain);
-        */
+
     }
 }

@@ -23,7 +23,7 @@ public class Transaction {
 
     private static int SEQUENCE;
 
-    public Transaction(PublicKey senderPublicKey, PublicKey receiverPublicKey, float value, List<TransactionInput> inputs) {
+    Transaction(PublicKey senderPublicKey, PublicKey receiverPublicKey, float value, List<TransactionInput> inputs) {
 
         this.senderPublicKey = senderPublicKey;
         this.receiverPublicKey = receiverPublicKey;
@@ -55,12 +55,15 @@ public class Transaction {
         return SecurityUtils.verifyEllipticCurveDigitalSignature(senderPublicKey, data, signature);
     }
 
+    public String getTransactionId() {
+        return transactionId;
+    }
 
     private String getDataFromTransaction() {
         return StringUtils.getStringFromKey(senderPublicKey) + StringUtils.getStringFromKey(receiverPublicKey) + value;
     }
 
-    public boolean processTransaction() {
+    boolean processTransaction() {
 
         if(!verifySignature()) {
             System.out.println("Transaction is no verified!");
@@ -102,7 +105,7 @@ public class Transaction {
         return true;
     }
 
-    private float getInputsValue() {
+    public float getInputsValue() {
         float total = 0;
         for(TransactionInput i : inputs) {
 
@@ -113,5 +116,37 @@ public class Transaction {
             total += i.getTransactionOutputValue();
         }
         return total;
+    }
+
+    public float getOutputsValue() {
+        float total = 0;
+        for(TransactionOutput transactionOutput : outputs) {
+            total += transactionOutput.getValue();
+        }
+        return total;
+    }
+
+    void setGenesisTransactionId() {
+        this.transactionId = "0";
+    }
+
+    void addOutput(TransactionOutput transactionOutput) {
+        outputs.add(transactionOutput);
+    }
+
+    public List<TransactionOutput> getOutputs() {
+        return new ArrayList<>(outputs);
+    }
+
+    public List<TransactionInput> getInputs() {
+        return new ArrayList<>(inputs);
+    }
+
+    public PublicKey getReceiverPublicKey() {
+        return receiverPublicKey;
+    }
+
+    public PublicKey getSenderPublicKey() {
+        return senderPublicKey;
     }
 }

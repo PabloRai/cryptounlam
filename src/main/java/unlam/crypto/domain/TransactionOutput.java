@@ -10,13 +10,11 @@ public class TransactionOutput {
     private String id;
     private PublicKey receiverPublicKey;
     private float value;
-    private String parentTransactionId;
 
-    public TransactionOutput(PublicKey receiverPublicKey, float value, String parentTransactionId) {
+    TransactionOutput(PublicKey receiverPublicKey, float value, String parentTransactionId) {
 
         this.receiverPublicKey = receiverPublicKey;
         this.value = value;
-        this.parentTransactionId = parentTransactionId;
 
         String receiverPublicKeyAsString = StringUtils.getStringFromKey(receiverPublicKey);
         String input = receiverPublicKeyAsString + value + parentTransactionId;
@@ -24,7 +22,7 @@ public class TransactionOutput {
 
     }
 
-    public boolean isMine(PublicKey publicKey) {
+    boolean isMine(PublicKey publicKey) {
         return receiverPublicKey == publicKey;
     }
 
@@ -34,5 +32,9 @@ public class TransactionOutput {
 
     public String getId() {
         return id;
+    }
+
+    public PublicKey getReceiverPublicKey() {
+        return receiverPublicKey;
     }
 }

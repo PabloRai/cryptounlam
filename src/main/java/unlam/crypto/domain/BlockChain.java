@@ -13,30 +13,30 @@ public enum BlockChain {
     public static final int DIFFICULTY = 2;
     private final List<Block> blockChain = new ArrayList<>();
 
-    public void addBlock(Block block) {
-        blockChain.add(block);
-    }
-
-    private static Map<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
 
 
-    public void createBlock(String data) {
+    private static Map<String,TransactionOutput> UTXOs = new HashMap<>();
+
+
+    public Block createBlock() {
         if (blockChain.isEmpty()) {
-            createGenesisBlock(data);
-            return;
+            return createGenesisBlock();
+
         }
 
         int blockChainSize = getBlockChainSize();
         Block lastBlock = blockChain.get(blockChainSize - 1);
 
-        Block block = new Block(data, DIFFICULTY, lastBlock.getHash());
+        Block block = new Block(DIFFICULTY, lastBlock.getHash());
         blockChain.add(block);
+        return block;
     }
 
-    private void createGenesisBlock(String data) {
-        Block block = new Block(data, DIFFICULTY, "0");
+    private Block createGenesisBlock() {
+        Block block = new Block(DIFFICULTY, "0");
 
         blockChain.add(block);
+        return block;
     }
 
     public Block getBlockChainElementAt(int index) {
@@ -49,11 +49,6 @@ public enum BlockChain {
 
     public int getBlockChainSize() {
         return blockChain.size();
-    }
-
-    public List<Block> getBlockChain() {
-        // Return a copy of the blockchain
-        return new ArrayList<>(blockChain);
     }
 
     public void mineBlockAt(int index) {
