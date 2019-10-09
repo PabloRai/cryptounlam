@@ -55,12 +55,12 @@ public class BlockChainValidator {
                     TransactionOutput tempOutput = tempUTXOs.get(input.getTransactionOutputId());
 
                     if(tempOutput == null) {
-                        System.out.println("#Referenced input on Transaction(" + transaction.getTransactionId() + ") is Missing");
+                        System.out.println("Referenced input on Transaction " + transaction.getTransactionId() + " is Missing");
                         return false;
                     }
 
                     if(input.getUTXO().getValue() != tempOutput.getValue()) {
-                        System.out.println("#Referenced input Transaction(" + transaction.getTransactionId() + ") value is Invalid");
+                        System.out.println("Referenced input Transaction " + transaction.getTransactionId() + " value is Invalid");
                         return false;
                     }
 
@@ -72,12 +72,12 @@ public class BlockChainValidator {
                 }
 
                 if( transaction.getOutputs().get(0).getReceiverPublicKey() != transaction.getReceiverPublicKey()) {
-                    System.out.println("#Transaction(" + transaction.getTransactionId() + ") output reciepient is not who it should be");
+                    System.out.println("Transaction " + transaction.getTransactionId() + " output reciepient is not who it should be");
                     return false;
                 }
 
                 if( transaction.getOutputs().get(1).getReceiverPublicKey() != transaction.getSenderPublicKey()) {
-                    System.out.println("#Transaction(" + transaction.getTransactionId() + ") output 'change' is not sender.");
+                    System.out.println("Transaction " + transaction.getTransactionId() + " output 'change' is not sender.");
                     return false;
                 }
 

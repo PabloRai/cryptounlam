@@ -7,11 +7,11 @@ public class TransactionInput {
     // UTXO = Unspent transaction output
     private TransactionOutput UTXO;
 
-    public TransactionInput(String transactionOutputId) {
+    TransactionInput(String transactionOutputId) {
         this.transactionOutputId = transactionOutputId;
     }
 
-    public void setUTXO(TransactionOutput UTXO) {
+    void setUTXO(TransactionOutput UTXO) {
         this.UTXO = UTXO;
     }
 
@@ -23,7 +23,7 @@ public class TransactionInput {
         return transactionOutputId;
     }
 
-    public float getTransactionOutputValue() {
+    float getTransactionOutputValue() {
         return UTXO.getValue();
     }
 }

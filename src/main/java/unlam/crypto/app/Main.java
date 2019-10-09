@@ -35,7 +35,7 @@ public class Main {
 
         Block block1 = blockChain.createBlock();
         System.out.println("\nWalletSenders's balance is: " + walletSender.getBalance());
-        System.out.println("\nWalletSenders is Attempting to send funds (40) to WalletB...");
+        System.out.println("\nWalletSenders is Attempting to send funds (40) to walletReceiver...");
         block1.addTransaction(walletSender.sendFunds(walletReceiver.getPublicKey(), 40f));
         blockChain.mineBlockAt(1);
 
