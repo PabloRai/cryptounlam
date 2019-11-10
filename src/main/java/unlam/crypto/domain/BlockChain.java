@@ -16,6 +16,12 @@ public enum BlockChain {
 
 
     private static Map<String,TransactionOutput> UTXOs = new HashMap<>();
+    
+    // just for test purposes
+    public void clear() {
+    	blockChain.clear();
+    	UTXOs.clear();
+    }
 
 
     public Block createBlock() {
